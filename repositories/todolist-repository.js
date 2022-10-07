@@ -1,6 +1,6 @@
 const {writeJsonToFile, readJsonFromFile} = require('../utils/fsUtils')
 const {v1} = require('uuid')
-const {responseCreator,errorCreator}=require('../utils/responseCreators')
+const {responseCreator, errorCreator} = require('../utils/responseCreators')
 
 const getTodoLists = async () => {
     try {
@@ -12,17 +12,25 @@ const getTodoLists = async () => {
 
 const postTodolist = async (title) => {
     try {
+        const newTodoListId = v1()
         const item = {
-            id: v1(),
+            id: newTodoListId,
             title: title,
         }
         const todoList = await readJsonFromFile('./DB/todo-lists.json')
         todoList.push(item)
         const response = await writeJsonToFile('./DB/todo-lists.json', todoList)
         if (response.result) {
-            return responseCreator({item})
+            const allTasks = await readJsonFromFile('./DB/tasks.json')
+            allTasks[newTodoListId] = []
+            const response = await writeJsonToFile('./DB/tasks.json', allTasks)
+            if (response.result) {
+                return responseCreator({item})
+            } else {
+                return errorCreator('some error in db')
+            }
         } else {
-            return errorCreator(response.err)
+            return errorCreator('some error in db')
         }
     } catch (e) {
         return errorCreator(e)
@@ -35,7 +43,14 @@ const deleteTodoList = async (id) => {
         if (todo) {
             const response = await writeJsonToFile('./DB/todo-lists.json', todo)
             if (response.result) {
-                return responseCreator()
+                const allTasks = await readJsonFromFile('./DB/tasks.json')
+                delete allTasks[id]
+                const response = await writeJsonToFile('./DB/tasks.json',allTasks)
+                if(response.result){
+                    return responseCreator()
+                }else {
+                    return errorCreator(response.err)
+                }
             } else {
                 return errorCreator(response.err)
             }
