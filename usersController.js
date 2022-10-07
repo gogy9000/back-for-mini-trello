@@ -1,6 +1,6 @@
-const {createUser, getUsers} = require("./repository");
+const {createUser, getUsers} = require("./repositories/todolist-repository");
 
-const usersController = async (ctx) => {
+const usersController = async () => {
     if (req.method === 'POST') {
         try {
 

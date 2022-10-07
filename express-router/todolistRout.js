@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require("body-parser");
 const todolist = express.Router()
 const jsonParser = bodyParser.json()
-const {postTodolist,getTodoLists,deleteTodoList, putTodolist}=require('../repository')
+const {postTodolist,getTodoLists,deleteTodoList, putTodolist}=require('../repositories/todolist-repository')
 
 todolist.get('/',async (req,res)=>{
     try {

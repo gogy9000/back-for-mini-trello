@@ -1,36 +1,6 @@
-const {writeJsonToFile, readJsonFromFile} = require('./fsUtils')
+const {writeJsonToFile, readJsonFromFile} = require('../utils/fsUtils')
 const {v1} = require('uuid')
-
-const responseCreator = (data) => {
-    if (data) {
-        return {
-            resultCode: 0,
-            messages: [],
-            data
-        }
-    } else {
-        return {
-            resultCode: 0,
-            messages: [],
-            data: {}
-        }
-    }
-}
-const errorCreator = (err) => {
-    if (err) {
-        return {
-            resultCode: 1,
-            messages: [err],
-            data: {}
-        }
-    } else {
-        return {
-            resultCode: 1,
-            messages: [],
-            data: {}
-        }
-    }
-}
+const {responseCreator,errorCreator}=require('../utils/responseCreators')
 
 const getTodoLists = async () => {
     try {

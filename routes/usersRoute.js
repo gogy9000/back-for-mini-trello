@@ -1,5 +1,5 @@
 const Router=require('koa-router')
-const {getUsers, createUser} = require("../repository");
+const {getUsers, createUser} = require("../repositories/todolist-repository");
 const koaBody = require("koa-body");
 
 const users=new Router()
