@@ -57,3 +57,4 @@ exports.putTask=async ({todoListId, id, payload})=>{
         return errorCreator(e)
     }
 }
+exports.TaskListModel=TaskListModel

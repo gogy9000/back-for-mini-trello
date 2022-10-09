@@ -1,5 +1,6 @@
 const {responseCreator, errorCreator} = require('../../utils/responseCreators')
 const {mongoose} = require('./index')
+const {TaskListModel}=require('./Task-repository')
 mongoose.connect('mongodb://localhost:27017/todolist')
 
 const todolistSchema = new mongoose.Schema({title: String,})
@@ -18,7 +19,6 @@ const postTodolist = async (title) => {
 
         const newTodolist = new TodolistModel({title: title})
         const item = await newTodolist.save()
-        console.log(item)
         return responseCreator({item})
     } catch (e) {
         return errorCreator(e)
@@ -26,8 +26,13 @@ const postTodolist = async (title) => {
 }
 const deleteTodoList = async (id) => {
     try {
-        const res = await TodolistModel.deleteOne({_id: id})
-        return responseCreator({res})
+        const responseTodo = await TodolistModel.deleteOne({_id: id})
+        if(responseTodo.acknowledged){
+          const responseTasks=await TaskListModel.remove({todoListId:id})
+            return responseCreator({responseTodo,responseTasks})
+        }else {
+            errorCreator(String(acknowledged))
+        }
     } catch (e) {
         return errorCreator({e})
     }
