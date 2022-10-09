@@ -14,8 +14,9 @@ const postTodolist = async (title) => {
     try {
         const newTodoListId = v1()
         const item = {
-            id: newTodoListId,
+            _id: newTodoListId,
             title: title,
+            __v:0
         }
         const todoList = await readJsonFromFile('./DB/todo-lists.json')
         todoList.push(item)
@@ -39,16 +40,16 @@ const postTodolist = async (title) => {
 const deleteTodoList = async (id) => {
     try {
         const todoLists = await readJsonFromFile('./DB/todo-lists.json')
-        const todo = todoLists.filter(el => el.id !== id)
+        const todo = todoLists.filter(el => el._id !== id)
         if (todo) {
             const response = await writeJsonToFile('./DB/todo-lists.json', todo)
             if (response.result) {
                 const allTasks = await readJsonFromFile('./DB/tasks.json')
                 delete allTasks[id]
-                const response = await writeJsonToFile('./DB/tasks.json',allTasks)
-                if(response.result){
+                const response = await writeJsonToFile('./DB/tasks.json', allTasks)
+                if (response.result) {
                     return responseCreator()
-                }else {
+                } else {
                     return errorCreator(response.err)
                 }
             } else {
@@ -65,7 +66,7 @@ const deleteTodoList = async (id) => {
 const putTodolist = async (payload) => {
     try {
         const todoLists = await readJsonFromFile('./DB/todo-lists.json')
-        const newTodoLists = todoLists.map(el => el.id === payload.id ? {id: el.id, title: payload.title} : el)
+        const newTodoLists = todoLists.map(el => el._id === payload.id ? {_id: el._id, title: payload.title} : el)
         const response = await writeJsonToFile('./DB/todo-lists.json', newTodoLists)
         if (response.result) {
             return responseCreator()

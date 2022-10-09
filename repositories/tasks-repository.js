@@ -21,9 +21,10 @@ exports.postTask = async (payload) => {
         if (allTasks[payload.todolistId]) {
             const task = {
                 title: payload.title,
-                id: v1(),
+                _id: v1(),
                 todoListId: payload.todolistId,
-                status: 0
+                status: 0,
+                __v:0
             }
             allTasks[payload.todolistId].push(task)
             const response = await writeJsonToFile('./DB/tasks.json', allTasks)
@@ -44,7 +45,7 @@ exports.deleteTask = async ({todoListId, id}) => {
     try {
         const allTasks = await readJsonFromFile('./DB/tasks.json')
         if (allTasks[todoListId]) {
-            allTasks[todoListId] = allTasks[todoListId].filter(el => el.id !== id)
+            allTasks[todoListId] = allTasks[todoListId].filter(el => el._id !== id)
             const response = await writeJsonToFile('./DB/tasks.json', allTasks)
             if (response.result) {
                 return responseCreator()
@@ -63,7 +64,7 @@ exports.putTask = async ({todoListId, id, payload}) => {
     try {
         const allTasks = await readJsonFromFile('./DB/tasks.json')
         if (allTasks[todoListId]) {
-            const task = allTasks[todoListId].find(el => el.id === id)
+            const task = allTasks[todoListId].find(el => el._id === id)
             if (task) {
                 const updatedTask = {...task, title: payload.title, status: payload.status}
                 const response = await writeJsonToFile('./DB/tasks.json', allTasks)
