@@ -21,9 +21,7 @@
     "uuid": "^9.0.0"
   },
   "scripts": {
-    "start-dev": "nodemon --inspect app.js",
-    "watch-dev": "tsc -w",
-    "build": "tsc",
-    "start": "node app.js"
+    "start": "node app.js",
+    "start-dev": "nodemon --inspect app.js"
   }
 }
