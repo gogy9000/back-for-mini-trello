@@ -11,8 +11,8 @@ app.use('/todo-lists', todolistRouter)
 app.use((req, res) => {
     res.sendStatus(404)
 })
-
-app.listen(3005)
+const PORT = process.env.PORT || 3005
+app.listen(PORT)
 
 // const mongoose = require('mongoose')
 //

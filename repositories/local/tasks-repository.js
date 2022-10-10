@@ -1,6 +1,6 @@
-const {writeJsonToFile, readJsonFromFile} = require('../utils/fsUtils')
+const {writeJsonToFile, readJsonFromFile} = require('../../utils/fsUtils')
 const {v1} = require('uuid')
-const {responseCreator, errorCreator} = require('../utils/responseCreators')
+const {responseCreator, errorCreator} = require('../../utils/responseCreators')
 
 exports.getTasks = async (todolistId) => {
     try {
