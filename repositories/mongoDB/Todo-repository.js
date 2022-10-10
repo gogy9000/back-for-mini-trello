@@ -1,7 +1,7 @@
 const {responseCreator, errorCreator} = require('../../utils/responseCreators')
 const {mongoose} = require('./index')
 const {TaskListModel}=require('./Task-repository')
-mongoose.connect('mongodb://localhost:27017/todolist')
+
 
 const todolistSchema = new mongoose.Schema({title: String,})
 const TodolistModel = new mongoose.model('todolist', todolistSchema)

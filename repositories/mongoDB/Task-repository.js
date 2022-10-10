@@ -1,7 +1,7 @@
 const {responseCreator, errorCreator} = require('../../utils/responseCreators')
 const {mongoose} = require('./index')
 
-mongoose.connect('mongodb://localhost:27017/todolist')
+
 
 const task = {
     title: String,
